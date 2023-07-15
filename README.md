@@ -1,4 +1,4 @@
-# Reader service to compy the AMS2 session information to a MySql Database
+# Reader service to copy the AMS2 session information to MySql Database
 
 This project reads the sessions file every 30 seconds and validate if there are new sessions to save in the database.
 
@@ -21,5 +21,5 @@ FILE_TO_READ="path/to/file.json"
 
 ## Run in parallel for several servers
 
-1. remove the `FILE_TO_READ` variable from the `.env` file.
+1. Remove the `FILE_TO_READ` variable from the `.env` file.
 2. Run the server with the FILE environment variable in the console: `FILE_TO_READ="path/to/file.json" npm start`
