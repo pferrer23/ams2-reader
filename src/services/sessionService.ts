@@ -1,17 +1,16 @@
 import * as fs from 'fs';
+import * as dotenv from 'dotenv';
 import { AppDataSource } from '../data-source';
 import { Ams2Session } from '../entity/Ams2Session';
 import { Ams2Drivers } from '../entity/Ams2Drivers';
 import { Ams2HistoryLaps } from '../entity/Ams2HistoryLaps';
 import { Ams2Incidents } from '../entity/Ams2Incidents';
+dotenv.config();
 
 export const handleReadData = async () => {
   try {
     console.log('Reading file...');
-    const data = fs.readFileSync(
-      'C:/Elemental Pro files/sms_stats_data.json',
-      'utf8'
-    );
+    const data = fs.readFileSync(process.env.FILE_TO_READ, 'utf8');
 
     let ams2FullDataString = data
       .replace(

@@ -10,6 +10,6 @@ AppDataSource.initialize()
         await handleReadData();
         isSaving = false;
       }
-    }, 10000);
+    }, 30000);
   })
   .catch((error) => console.log(error));
