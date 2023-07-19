@@ -30,4 +30,6 @@ export class Ams2Session {
   server_name: string;
 
   events?: any | null;
+
+  results?: any | null;
 }

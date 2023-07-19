@@ -1,36 +1,30 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class Ams2HistoryLaps {
+export class Ams2Results {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  participantid: number;
-
-  @Column()
-  time: number;
-
-  @Column()
-  lap: number;
-
-  @Column()
-  LapTime: number;
 
   @Column()
   RacePosition: number;
 
   @Column()
-  Sector1Time: number;
+  participantid: number;
 
   @Column()
-  Sector2Time: number;
+  Time: number;
 
   @Column()
-  Sector3Time: number;
+  FastestLapTime: number;
 
   @Column()
-  CountThisLapTimes: number;
+  Lap: number;
+
+  @Column()
+  State: number;
+
+  @Column()
+  TotalTime: number;
 
   @Column()
   id_session: number;

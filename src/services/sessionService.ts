@@ -5,6 +5,7 @@ import { Ams2Session } from '../entity/Ams2Session';
 import { Ams2Drivers } from '../entity/Ams2Drivers';
 import { Ams2HistoryLaps } from '../entity/Ams2HistoryLaps';
 import { Ams2Incidents } from '../entity/Ams2Incidents';
+import { Ams2Results } from '../entity/Ams2Results';
 dotenv.config();
 
 export const handleReadData = async () => {
@@ -55,7 +56,7 @@ export const handleReadData = async () => {
         .values(sessions)
         .execute();
       console.log('Formatting sessions data...');
-      const { sessionDrivers, sessionLaps, sessionIncidents } =
+      const { sessionDrivers, sessionLaps, sessionIncidents, sessionResults } =
         formatSessionData(sessions, firstPendingHistory);
 
       console.log('Saving sessions data (Drivers, Laps and Incidents)...');
@@ -78,6 +79,13 @@ export const handleReadData = async () => {
         .insert()
         .into(Ams2Incidents)
         .values(sessionIncidents)
+        .execute();
+
+      await AppDataSource.getRepository(Ams2Results)
+        .createQueryBuilder()
+        .insert()
+        .into(Ams2Results)
+        .values(sessionResults)
         .execute();
 
       console.log('Event data saved succesfully...');
@@ -119,7 +127,7 @@ const formatSessionData = (sessions, firstPendingHistory) => {
   let sessionDrivers: Ams2Drivers[] = [];
   let sessionLaps: Ams2HistoryLaps[] = [];
   let sessionIncidents: Ams2Incidents[] = [];
-
+  let sessionResults: Ams2Results[] = [];
   sessions.forEach((session: Ams2Session) => {
     console.log(session.id);
     const insertedSessionId = session.id;
@@ -188,11 +196,28 @@ const formatSessionData = (sessions, firstPendingHistory) => {
             })
         : [];
     sessionIncidents = sessionIncidents.concat(incidents);
+
+    const results =
+      session.results && Array.isArray(session.results)
+        ? session.results.map((result) => {
+            return {
+              ...result,
+              id_session: insertedSessionId,
+              Time: result.Time,
+              FastestLapTime: result.attributes.FastestLapTime,
+              Lap: result.attributes.Lap,
+              State: result.attributes.State,
+              TotalTime: result.attributes.TotalTime,
+            };
+          })
+        : [];
+    sessionResults = sessionResults.concat(results);
   });
 
   return {
     sessionDrivers,
     sessionLaps,
     sessionIncidents,
+    sessionResults,
   };
 };

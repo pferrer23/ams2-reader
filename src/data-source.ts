@@ -4,6 +4,7 @@ import { Ams2Session } from './entity/Ams2Session';
 import { Ams2Drivers } from './entity/Ams2Drivers';
 import { Ams2HistoryLaps } from './entity/Ams2HistoryLaps';
 import { Ams2Incidents } from './entity/Ams2Incidents';
+import { Ams2Results } from './entity/Ams2Results';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -16,7 +17,13 @@ export const AppDataSource = new DataSource({
   database: process.env.DATABASE_NAME,
   synchronize: true,
   logging: false,
-  entities: [Ams2Session, Ams2Drivers, Ams2HistoryLaps, Ams2Incidents],
+  entities: [
+    Ams2Session,
+    Ams2Drivers,
+    Ams2HistoryLaps,
+    Ams2Incidents,
+    Ams2Results,
+  ],
   migrations: [],
   subscribers: [],
 });
